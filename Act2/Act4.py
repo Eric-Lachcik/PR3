@@ -1,17 +1,21 @@
 
 A = input("Escriba la contraseña:")
+D = 2
+
 
 if A == "Eureka":
-    print("Contraseña correcta")
-else:
-    print("Contraseña incorrecta faltan 2 intentos")
-    B = input("Escriba la contraseña:")
-    if B == "Eureka":
         print("Contraseña correcta")
-    else:
-        print("Contraseña incorrecta falta un intento")
-        C = input("Escriba la contraseña:")
-        if C == "Eureka":
-            print("Contraseña incorrecta")
-        else:
-            print("Contraseña incorrecta, reinicie para volver a intentar")
+else:
+        while D > 0:
+                print("Contraseña incorrecta")
+                D = D - 1
+                A = input("Intente lo otra vez:")
+        if D == 0:
+                print("Contraseña incorrecta,reincia para continuar")
+        
+                
+
+    
+        
+
+        
