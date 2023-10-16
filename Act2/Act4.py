@@ -12,10 +12,4 @@ else:
                 A = input("Intente lo otra vez:")
         if D == 0:
                 print("Contraseña incorrecta,reincia para continuar")
-        
-                
-
-    
-        
-
-        
+ #Este Eureka si que podria hacerlo 20 veces       
