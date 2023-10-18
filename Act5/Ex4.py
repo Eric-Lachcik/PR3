@@ -1,15 +1,15 @@
 
 A = input("Escriba la contraseña:")
 D = 2
-
-
 if A == "Eureka":
         print("Contraseña correcta")
 else:
-        while D > 0:
+        while D > 0 and A != "Eureka":
                 print("Contraseña incorrecta")
                 D = D - 1
                 A = input("Intente lo otra vez:")
-        if D == 0:
+                if A == "Eureka":
+                        print("Contraseña correcta")
+        if D == 0 and A != "Eureka":
                 print("Contraseña incorrecta,reincia para continuar")
- #Este Eureka si que podria hacerlo 20 veces       
+#Ahora si puedo hacer la contraseña en 20 intentos si quiero
