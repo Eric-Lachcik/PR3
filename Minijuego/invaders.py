@@ -3,7 +3,7 @@ import pygame
 pygame.init()
 pantalla = pygame.display.set_mode((800,800))
 
-imagen_avion = pygame.image.load("ira2.png")
+imagen_avion = pygame.image.load("ira2(1).png")
 avion = pygame.transform.scale(imagen_avion,(90,150))
 avion_rect = avion.get_rect()
 
