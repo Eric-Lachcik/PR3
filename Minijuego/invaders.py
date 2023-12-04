@@ -3,10 +3,11 @@ import objetos
 
 pygame.init()
 pantalla = pygame.display.set_mode((800,800))
-
-imagen_avion = pygame.image.load("gato.png")
-avion = pygame.transform.scale(imagen_avion,(90,150))
-avion_rect = avion.get_rect()
+clock = pygame.time.Clock()
+FPS = 60
+#imagen_avion = pygame.image.load("gato.png")
+#avion = pygame.transform.scale(imagen_avion,(90,150))
+#avion_rect = avion.get_rect()
 
 
 
@@ -18,6 +19,8 @@ avion = objetos.Avion()
 #posTop = 30
 
 while not salir:
+
+    clock.tick(60)
     # gestionar eventos
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -25,9 +28,9 @@ while not salir:
     
     teclas = pygame.key.get_pressed()
     if teclas[pygame.K_LEFT]:
-        avion.moverIzquierda()
+        avion.moverizquierda()
     if teclas[pygame.K_RIGHT]:
-        avion.moverDerecha()
+        avion.moverderecha()
     #if teclas[pygame.K_UP]:
     #    posTop -= 1
     #if teclas[pygame.K_DOWN]:
