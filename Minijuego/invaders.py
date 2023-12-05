@@ -6,7 +6,7 @@ pantalla = pygame.display.set_mode((800,800))
 clock = pygame.time.Clock()
 FPS = 60
 #imagen_avion = pygame.image.load("gato.png")
-#avion = pygame.transform.scale(imagen_avion,(90,150))
+#avion = pygame.transform.scale(imagenes_cargadas[0],(90,150))
 #avion_rect = avion.get_rect()
 
 
