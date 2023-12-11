@@ -15,6 +15,7 @@ FPS = 60
 salir = False
 
 avion = objetos.Avion()
+fondo = objetos.Fondo()
 #posIzda = 30
 #posTop = 30
 
@@ -36,7 +37,8 @@ while not salir:
     #if teclas[pygame.K_DOWN]:
     #    posTop += 1
     # gestionar cambios
-    pantalla.fill((80,80,80))
+    #pantalla.fill((80,80,80))
+    fondo.dibujar()
 
     #pantalla.blit(avion, (posIzda,posTop))
     #pygame.draw.rect(pantalla , (255,255,255), pygame.Rect(posIzda,posTop,68,68))
