@@ -48,5 +48,7 @@ class Enemigo(pygame.sprite.Sprite):
              #actualizar posicion
              self.rect.topleft = posicion
         def update(self, *args: Any, **kwargs: Any):
+             pantalla = pygame.display.get_surface()
              self.rect.y += 1
+             self.rect.x = min(pantalla.get_width()- self.image.get_width(), self.rect.x)
               
