@@ -16,12 +16,14 @@ class Nave(pygame.sprite.Sprite):
        self.rect = self.image.get_rect()
        #actualizar rectangulo para coincidir con rectangulo
        self.rect.topleft = posicion
+       self.ultimo_disparo = 0
     #update
     def update(self, *args: any, **kwargs: any):
         #capturamps las teclas
         teclas = args[0]
         #capturamos la pantalla
         pantalla = pygame.display.get_surface()
+        #Gestionamos las teclas
         if teclas[pygame.K_LEFT]:
             self.rect.x -= 2
             self.rect.x = max(0, self.rect.x)
@@ -35,9 +37,11 @@ class Nave(pygame.sprite.Sprite):
         self.image = self.manolos[self.indice_manolo]
     
     def disparar(self, grupo_sprites):
-        if momento_actual > self.ulimo_disparo + 200:
-        bala = Bala((self.rect.x + self.image.get_width()/2, self.rect.y))
-        grupo_sprites.add(bala)
+        momento_actual = pygame.time.get_ticks()
+        if momento_actual > self.ultimo_disparo + 200:
+            bala = Bala((self.rect.x + self.image.get_width() /2, self.rect.y))
+            grupo_sprites.add(bala)
+            self.ultimo_disparo = momento_actual
          
 
 
@@ -75,12 +79,13 @@ class Fondo(pygame.sprite.Sprite):
              self.rect = self.image.get_rect()
              #actualizar posicion
              self.rect.topleft = (0,0)
+
 class Bala(pygame.sprite.Sprite):
         def __init__(self, posicion ) -> None:
              super().__init__()
              #creamos el rectangulo
-             self.image = pygame.Surface(5,30)
-             self.image.fill(255,0,0)
+             self.image = pygame.Surface((5,10))
+             self.image.fill((255,0,0))
              self.rect = self.image.get_rect()
              self.rect.center = posicion
 

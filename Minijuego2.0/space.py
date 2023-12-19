@@ -23,7 +23,7 @@ nave = elementos2.Nave(posicion)
 fondo = elementos2.Fondo()
 #grupo de sprites
 grupo_sprites = pygame.sprite.Group(fondo)
-grupo_sprites.add(elementos2.Nave((posicion)))
+grupo_sprites.add(nave)
 
 
 
