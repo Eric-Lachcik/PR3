@@ -79,7 +79,7 @@ class Enemigo(pygame.sprite.Sprite):
 
         #capturamos el argumento 2 -> grupo sprites balas
         grupo_sprites_balas = args[2]
-        bala_colision = pygame.sprite.spritecollideany(self, grupo_sprites_balas, pygame.sprite.collide_mask )
+        bala_colision = pygame.sprite.spritecollideany(self, grupo_sprites_balas, pygame.sprite.collide_mask)
         if bala_colision:
             self.kill()
             bala_colision.kill()
