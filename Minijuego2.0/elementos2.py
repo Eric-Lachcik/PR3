@@ -13,6 +13,7 @@ class Nave(pygame.sprite.Sprite):
        self.indice_manolo = 0
        self.image = self.manolos2[self.indice_manolo]
        self.contador_imagen  = 0
+       self.mask = pygame.mask.from_surface(self.image)
        #creamos un rectangulo a partir de la imagen
        self.rect = self.image.get_rect()
        #actualizar rectangulo para coincidir con rectangulo
@@ -43,9 +44,16 @@ class Nave(pygame.sprite.Sprite):
         if teclas[pygame.K_SPACE]:
             #disparar
             self.disparar(grupo_sprite_todos, grupo_sprites_balas)
-            
-
-    
+        #capturar grupo sprite enemigos
+        grupo_sprites_enemigos = args[3]
+        #variable runnig
+        running = args[4]
+        #detectar colisiones con enemigos
+        enemigo_colision = pygame.sprite.spritecollideany(self, grupo_sprites_enemigos, pygame.sprite.collide_mask)
+        if enemigo_colision:
+            enemigo_colision.kill()
+            running[0] = False
+   
     def disparar(self, grupo_sprites_todos, grupo_sprites_balas):
         momento_actual = pygame.time.get_ticks()
         if momento_actual > self.ultimo_disparo + 200:
@@ -63,7 +71,8 @@ class Enemigo(pygame.sprite.Sprite):
         super().__init__()
         #cargamos la imagen
         manolo = pygame.image.load("ira2.png")
-        self.image = pygame.transform.rotate(manolo, 900)
+        manolo2 = pygame.transform.scale(manolo, (120,120))
+        self.image = pygame.transform.rotate(manolo2, 900)
         #creamos un rectangulo
         self.rect = self.image.get_rect()
         #actualizar posicion
