@@ -46,7 +46,7 @@ def start_the_game():
     
 
     #booleano de control
-    running = True
+    running = [True]
 
     global ultimo_enemigo_creado
     global reloj
@@ -57,7 +57,7 @@ def start_the_game():
     global grupo_sprites_todos
 
     #bucle principal
-    while running:
+    while running[0]:
         #limitamos los framerate
         reloj.tick(FPS)
 
@@ -65,7 +65,7 @@ def start_the_game():
         #gestionar la salida
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                running[0] = False
         
         #capturamos las teclas
         teclas = pygame.key.get_pressed()
@@ -93,12 +93,12 @@ def start_the_game():
     pass
     
 
-menu = pygame_menu.Menu(300, 400, 'Welcome', theme=pygame_menu.themes.THEME_BLUE)
+menu = pygame_menu.Menu('Welcome', 400, 300, theme=pygame_menu.themes.THEME_BLUE)
 
-menu.add_text_input('Name :', default='John Doe')
-menu.add_selector('Difficulty :', [('Hard', 1), ('Easy', 2)], onchange=set_difficulty)
-menu.add_button('Play', start_the_game)
-menu.add_button('Quit', pygame_menu.events.EXIT)
+menu.add.text_input('Name :', default='John Doe')
+menu.add.selector('Difficulty :', [('Hard', 1), ('Easy', 2)], onchange=set_difficulty)
+menu.add.button('Play', start_the_game)
+menu.add.button('Quit', pygame_menu.events.EXIT)
 
 menu.mainloop(pantalla)
 
