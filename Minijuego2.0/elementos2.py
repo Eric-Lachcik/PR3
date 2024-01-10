@@ -109,6 +109,14 @@ class Fondo(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         #actualizar posicion
         self.rect.topleft = (0,0)
+    
+    #def update(self, *args: Any, **kwargs: Any) -> None:
+    #    self.rect.y += 1
+    #    #capturamos la pantalla
+    #    pantalla = pygame.display.get_surface()
+    #    if self.rect.y >= pantalla.get_height():
+    #        self.rect.y =- pantalla.get_height()
+       
 
 class Bala(pygame.sprite.Sprite):
     
