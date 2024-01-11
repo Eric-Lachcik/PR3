@@ -103,17 +103,16 @@ def start_the_game():
          
             grupo_sprites_todos.update(teclas, grupo_sprites_todos, grupo_sprites_balas, grupo_sprites_enemigos, running)
 
-
-        if pausado:
-            texto = font.render("PAUSA", True, "Green")
-            pantalla.blit(texto, (pantalla.get_width() / 2, pantalla.get_height() / 2))
-
-
         #pintaremos
         pantalla.fill((80,80,80))
         #grupo_sprites_todos.update(teclas, grupo_sprites_todos, grupo_sprites_balas, grupo_sprites_enemigos, running)
         grupo_sprites_todos.draw(pantalla)
-              
+        
+
+        if pausado:
+            texto = font.render("PAUSA", True, "Green")
+            pantalla.blit(texto, (pantalla.get_width() / 2, pantalla.get_height() / 2))
+        
         #Redibujar la pantalla  
         pygame.display.flip()
     pass
