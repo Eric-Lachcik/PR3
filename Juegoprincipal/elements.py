@@ -17,7 +17,7 @@ class Planeta(pygame.sprite.Sprite):
         #Actualizamos el rectangulo para que coincida con la imagen
         self.rect.topleft = posicion
 
-class Fondo(pygma.sprite.Sprite):
+class Fondo(pygame.sprite.Sprite):
     
     def __init__(self,) -> None:
         super().__init__()
