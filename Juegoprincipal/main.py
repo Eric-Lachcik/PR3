@@ -9,7 +9,7 @@ pygame.init()
 #Tamaño de la Pantalla y posicion de la Nave
 tamanio = (800, 800)
 pantalla = pygame.display.set_mode(tamanio)
-posicion = (360,350)
+posicion = (355,335)
 #Reloj del juego y FPS
 reloj = pygame.time.Clock()
 FPS = 60

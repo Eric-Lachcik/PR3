@@ -9,7 +9,7 @@ class Planeta(pygame.sprite.Sprite):
         super().__init__()
         #cargamos las imagenes
         self.ricardo = pygame.image.load("PlanetaF1.png")
-        self.ricardo2 = pygame.transform.scale(self.ricardo, (90,90))
+        self.ricardo2 = pygame.transform.scale(self.ricardo, (100,100))
         self.image = self.ricardo2
         self.mask = pygame.mask.from_surface(self.image)
         #Rectangulo para la imagen
