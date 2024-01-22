@@ -2,14 +2,15 @@ import pygame
 import elements
 
 
+
 #Iniciamos el Juego
 pygame.init()
 
-
 #Tamaño de la Pantalla y posicion de la Nave
-tamanio = (800, 800)
-pantalla = pygame.display.set_mode(tamanio)
-posicion = (355,335)
+tamanio = (1920, 1080)
+pantalla = pygame.display.set_mode((tamanio), pygame.FULLSCREEN)
+posicion = (650,380)
+
 #Reloj del juego y FPS
 reloj = pygame.time.Clock()
 FPS = 60
@@ -25,6 +26,8 @@ grupo_sprites_todos = pygame.sprite.Group()
 grupo_sprites_enemigos = pygame.sprite.Group()
 grupo_sprites_balas = pygame.sprite.Group()
 
+#Añadimos las cosas a los sprites
+grupo_sprites_todos.add(elements.Fondo())
 grupo_sprites_todos.add(elements.Planeta(posicion))
 
 #Bucle Principal
@@ -40,7 +43,9 @@ while running[0]:
     #Capturamos la Teclas
     teclas = pygame.key.get_pressed()
     
-    
+    if teclas[pygame.K_ESCAPE]:
+        running[0] = False
+      
     #Pintamos la Pantalla
     pantalla.fill((80,80,80))
     grupo_sprites_todos.draw(pantalla)
