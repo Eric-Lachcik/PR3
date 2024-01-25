@@ -1,11 +1,11 @@
 from typing import Any
 import pygame
 from pygame.sprite import  Group
-
+import math
 
 class Planeta(pygame.sprite.Sprite):
     #Constructor de la Nave
-    def __init__(self, posicion):
+    def __init__(self, posicion, *args):
         super().__init__()
         #cargamos las imagenes
         self.ricardo = pygame.image.load("PlanetaF1.png")
@@ -16,8 +16,12 @@ class Planeta(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         #Actualizamos el rectangulo para que coincida con la imagen
         self.rect.topleft = posicion
-    
+        
+        
     def update(self, *args: any, **kwargs: any):
+        #Capturamos X e Y
+        x = args[5]
+        y = args[6]
         #Capturamos las teclas
         teclas = args[0]
         #Capturamos a Todos
@@ -26,8 +30,15 @@ class Planeta(pygame.sprite.Sprite):
         grupo_sprites_balas = args[2]
         #Capturamos la Pantalla
         pantalla = pygame.display.get_surface()
-        #Gestionamos las teclas para la rotación de Planeta
-        
+        #Capturamos la posicion del mouse
+        pos = args[7]
+        #Calculamos el angulo del planeta
+        x_dist = pos[0] - x
+        y_dist = -(pos[1] - y)
+        angulo = math.degrees(math.atan2(y_dist, x_dist))
+        #Rotacion del Planeta
+        self.image = pygame.transform.rotate(self.ricardo2, angulo)
+        #https://www.youtube.com/watch?v=WnIycS9Gf_c
         return 
 
 class Fondo(pygame.sprite.Sprite):
