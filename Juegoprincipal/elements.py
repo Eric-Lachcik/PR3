@@ -51,17 +51,21 @@ class Planeta(pygame.sprite.Sprite):
         #Gestionamos los disparos
         if click_izdo:
             #Disparar
-            self.disparar(grupo_sprites_todos, grupo_sprites_balas)
+            self.disparar(grupo_sprites_todos, grupo_sprites_balas, pos,x,y,x_dist,y_dist)
         
         
     
-    def disparar(self, grupo_sprites_todos, grupo_sprites_balas):
+    def disparar(self, grupo_sprites_todos, grupo_sprites_balas, pos,x,y,x_dist,y_dist):
+        x_dist = pos[0] - x
+        y_dist = -(pos[1] - y)
+        angulo = math.degrees(math.atan2(y_dist, x_dist))  
         momento_actual = pygame.time.get_ticks()
         if momento_actual > self.ultimo_disparo + 200:
             bala = Bala((self.rect.x + self.image.get_width()/2, self.rect.y + self.image.get_width()/2 ))
             grupo_sprites_balas.add(bala)
             grupo_sprites_todos.add(bala)
             self.ultimo_disparo = momento_actual
+          
 
 class Fondo(pygame.sprite.Sprite):
     
@@ -84,19 +88,30 @@ class Bala(pygame.sprite.Sprite):
         #Creamos el rectangulo de la bala
         self.image = pygame.Surface((5,10))
         #Añadimos color a la bala
-        self.image.fill((255,0,0))    
+        self.image.fill((255,0,0))  
         #Añadimos una mascara
         self.mask = pygame.mask.from_surface(self.image)
         #Añadimos el rectangulo
         self.rect = self.image.get_rect()
         self.rect.center = posicion
         
+        
     def update(self, *args: Any, **kwargs: Any) -> None:
-        self.rect -= 5
-        pos = args[7]
-        x = args[5]
-        y = args[6]
-        x_dist = pos[0] - x
-        y_dist = -(pos[1] - y)
-        angulo = math.degrees(math.atan2(y_dist, x_dist))
-            
+        #self.rect.y -= 5
+    #    pos = args[7]
+    #    x = args[5]
+    #    y = args[6]
+    #    x_dist = pos[0] - x
+    #    y_dist = -(pos[1] - y)
+    #    angulo = math.degrees(math.atan2(y_dist, x_dist))
+    #    self.image = pygame.transform.rotate(self.image, angulo)
+    #    #Velocidad de la bala
+    #    self.angle = 0
+    #    self.delta.x = math.cos(math.radians(self.angle))*200
+    #    self.delta.y = -math.sin(math.radians(self.angle))*200
+    #   
+    #   
+    #    self.rect.x += self.delta.x
+    #    self.rect.y = self.rect.y + self.delta.y
+        pass
+       
