@@ -16,7 +16,7 @@ class Planeta(pygame.sprite.Sprite):
         #Rectangulo para la imagen
         self.rect = self.image.get_rect()
         #Actualizamos el rectangulo para que coincida con la imagen
-        self.rect.topleft = posicion
+        self.rect.center = posicion
         #Disparos
         self.ultimo_disparo = 0
         
@@ -25,7 +25,6 @@ class Planeta(pygame.sprite.Sprite):
         #Capturamos X e Y
         x = args[5]
         y = args[6]
-        posicion = args[8]
         #Capturamos las teclas y el raton
         teclas = args[0]
         click_izdo, click_central, click_dcho = args[9]
@@ -35,38 +34,32 @@ class Planeta(pygame.sprite.Sprite):
         grupo_sprites_balas = args[2]
         #Capturamos los Enemigos
         grupo_sprites_enemigos = args[3]
-        #Capturamos la Pantalla
-        pantalla = pygame.display.get_surface()
         #Capturamos la posicion del mouse
         pos = args[7]
         #Calculamos el angulo del planeta
         x_dist = pos[0] - x
         y_dist = -(pos[1] - y)
-        angulo = math.degrees(math.atan2(y_dist, x_dist))
+        self.angulo = math.degrees(math.atan2(y_dist, x_dist))
         #Rotacion del Planeta
-        self.image = pygame.transform.rotate(self.ricardo2, angulo - 90 )
-        self.rect = self.image.get_rect(center = posicion)
+        self.image = pygame.transform.rotate(self.ricardo2, self.angulo - 90)
+        self.rect = self.image.get_rect(center = self.rect.center)
         #Video del movimiento de raton
         #https://www.youtube.com/watch?v=WnIycS9Gf_c
-        #Gestionamos los disparos
+        
+        #Gestionamos el Raton y las teclas
         if click_izdo:
             #Disparar
-            self.disparar(grupo_sprites_todos, grupo_sprites_balas, pos,x,y,x_dist,y_dist)
-        
-        
+            self.disparar(grupo_sprites_todos,grupo_sprites_balas)
+
     
-    def disparar(self, grupo_sprites_todos, grupo_sprites_balas, pos,x,y,x_dist,y_dist):
-        x_dist = pos[0] - x
-        y_dist = -(pos[1] - y)
-        angulo = math.degrees(math.atan2(y_dist, x_dist))  
+    def disparar(self, grupo_sprites_todos, grupo_sprites_balas,):
         momento_actual = pygame.time.get_ticks()
-        if momento_actual > self.ultimo_disparo + 200:
-            bala = Bala((self.rect.x + self.image.get_width()/2, self.rect.y + self.image.get_width()/2 ))
+        if momento_actual > self.ultimo_disparo + 200:     
+            bala = Bala((self.rect.centerx, self.rect.centery), self.angulo + 90)
             grupo_sprites_balas.add(bala)
             grupo_sprites_todos.add(bala)
-            self.ultimo_disparo = momento_actual
-          
-
+            self.ultimo_disparo = momento_actual 
+            
 class Fondo(pygame.sprite.Sprite):
     
     def __init__(self,) -> None:
@@ -83,35 +76,24 @@ class Fondo(pygame.sprite.Sprite):
 
 class Bala(pygame.sprite.Sprite):
     
-    def __init__(self, posicion) -> None:
+    def __init__(self, posicion, angulo) -> None:
         super().__init__()
-        #Creamos el rectangulo de la bala
-        self.image = pygame.Surface((5,10))
-        #Añadimos color a la bala
-        self.image.fill((255,0,0))  
+        #Añadimos la imagen de la bala
+        bala_imagen = pygame.image.load("BalaF.png")
+        self.image = pygame.transform.scale(bala_imagen, (20,20))
+        self.image = pygame.transform.rotate(self.image, angulo + 180)
         #Añadimos una mascara
         self.mask = pygame.mask.from_surface(self.image)
         #Añadimos el rectangulo
         self.rect = self.image.get_rect()
         self.rect.center = posicion
-        
+        self.angulo = angulo
+        self.velocidad = 5
         
     def update(self, *args: Any, **kwargs: Any) -> None:
-        #self.rect.y -= 5
-    #    pos = args[7]
-    #    x = args[5]
-    #    y = args[6]
-    #    x_dist = pos[0] - x
-    #    y_dist = -(pos[1] - y)
-    #    angulo = math.degrees(math.atan2(y_dist, x_dist))
-    #    self.image = pygame.transform.rotate(self.image, angulo)
-    #    #Velocidad de la bala
-    #    self.angle = 0
-    #    self.delta.x = math.cos(math.radians(self.angle))*200
-    #    self.delta.y = -math.sin(math.radians(self.angle))*200
-    #   
-    #   
-    #    self.rect.x += self.delta.x
-    #    self.rect.y = self.rect.y + self.delta.y
+        rad_angle = math.radians(self.angulo)
+        self.rect.x += 6 * math.sin(rad_angle)
+        self.rect.y += 6 * math.cos(rad_angle)
         pass
+    
        
