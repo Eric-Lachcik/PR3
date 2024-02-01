@@ -1,6 +1,6 @@
 from typing import Any
 import pygame
-from pygame.sprite import Group
+from pygame.sprite import  Group
 import math
 
 class Planeta(pygame.sprite.Sprite):
@@ -88,12 +88,54 @@ class Bala(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = posicion
         self.angulo = angulo
-        self.velocidad = 5
+        
         
     def update(self, *args: Any, **kwargs: Any) -> None:
         rad_angle = math.radians(self.angulo)
         self.rect.x += 6 * math.sin(rad_angle)
         self.rect.y += 6 * math.cos(rad_angle)
+        
+  
+class Enemigo(pygame.sprite.Sprite):
+    
+    def __init__(self,posicion) -> None:
+        super().__init__()
+        #Cargamos la imagen del Enemigo
+        messi = pygame.image.load("enemigoM.png")
+        self.image = pygame.transform.scale(messi, (120,120))
+        #Creamos el Rectangulo
+        self.rect = self.image.get_rect()
+        #Actualizamos su posicion 
+        self.rect.topleft = posicion
+        #Añadimos el angulo
+        self.angle = 0
+        self.velocidad = 2    
+    
+    def movimiento_enemigo(self, planeta):
+        #Calculamos el angulo de los enemigos
+        angle = math.atan2(planeta.rect.centery - self.rect.centery, planeta.rect.centerx - self.rect.centerx)
+        #Actualizamos las coordenadas
+        self.rect.x += self.velocidad * math.cos(angle)
+        self.rect.y += self.velocidad * math.sin(angle)
         pass
     
+    
+    def update(self, *args: Any, **kwargs: Any) :
+      
+       
+       #Capturamos la Pantalla
+       pantalla = pygame.display.get_surface()
+       self.rect.x = min(pantalla.get_width() - self.image.get_width(), self.rect.x)
+       if(self.rect.y > pantalla.get_width()):
+           self.kill()
+       
+       #Capturamos las balas
+       grupo_sprites_balas = args[2]
+       colision_bala = pygame.sprite.spritecollideany(self, grupo_sprites_balas, pygame.sprite.collide_mask)
+       if colision_bala:
+           self.kill()
+           colision_bala.kill() 
+    
+       pass
+   
        

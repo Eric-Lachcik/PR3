@@ -1,5 +1,7 @@
 import pygame
 import elements
+import random
+
 
 
 
@@ -12,6 +14,10 @@ pantalla = pygame.display.set_mode((tamanio), pygame.FULLSCREEN)
 posicion = (710,480)
 x = (710)
 y = (480)
+
+#Frecuencias del Enemigo
+ultimo_enemigo_creado = 0
+frecuencia_creacion_enemigo = 1500
 
 #Reloj del juego y FPS
 reloj = pygame.time.Clock()
@@ -29,8 +35,10 @@ grupo_sprites_enemigos = pygame.sprite.Group()
 grupo_sprites_balas = pygame.sprite.Group()
 
 #Añadimos las cosas a los sprites
-grupo_sprites_todos.add(elements.Fondo())
-grupo_sprites_todos.add(elements.Planeta(posicion))
+
+fondo = elements.Fondo()
+planeta = elements.Planeta((posicion))
+grupo_sprites_todos.add(fondo, planeta)
 
 #Bucle Principal
 while running[0]:
@@ -50,6 +58,18 @@ while running[0]:
     
     if teclas[pygame.K_ESCAPE]:
         running[0] = False
+      
+    #Aparicion  del enemigo
+    momento_actual = pygame.time.get_ticks()
+    if(momento_actual > ultimo_enemigo_creado + frecuencia_creacion_enemigo):
+        cordx = random.randint(0, pantalla.get_width())
+        cordy = -125
+        #Creamos al enemigo
+        enemigo = elements.Enemigo((cordx,cordy))
+        grupo_sprites_todos.add(enemigo)
+        grupo_sprites_enemigos.add(enemigo)
+        ultimo_enemigo_creado = momento_actual
+         
       
     #Pintamos la Pantalla
     pantalla.fill((80,80,80))
