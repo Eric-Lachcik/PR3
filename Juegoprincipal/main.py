@@ -9,19 +9,20 @@ import random
 pygame.init()
 
 #Tamaño de la Pantalla y posicion de la Nave
-tamanio = (1920, 1080)
-pantalla = pygame.display.set_mode((tamanio), pygame.FULLSCREEN)
-posicion = (710,480)
-x = (710)
-y = (480)
+tamaño = (1920, 1080)
+pantalla = pygame.display.set_mode((tamaño), pygame.FULLSCREEN)
+posicion = (960,550)
+#posicion1 = (710,480)
+x = (960)
+y = (550)
 
 #Frecuencias del Enemigo
 ultimo_enemigo_creado = 0
-frecuencia_creacion_enemigo = 1500
+frecuencia_creacion_enemigo = 250
 
 #Reloj del juego y FPS
 reloj = pygame.time.Clock()
-FPS = 60
+FPS = 240
 
 #Fuente para el texto(Menu)
 font = pygame.font.Font(None, 30)
@@ -35,10 +36,12 @@ grupo_sprites_enemigos = pygame.sprite.Group()
 grupo_sprites_balas = pygame.sprite.Group()
 
 #Añadimos las cosas a los sprites
-
+enemigo = elements.Enemigo((2500,1500))
 fondo = elements.Fondo()
 planeta = elements.Planeta((posicion))
-grupo_sprites_todos.add(fondo, planeta)
+bala = elements.Bala((0,0),0)
+grupo_sprites_todos.add(fondo, planeta, bala)
+grupo_sprites_enemigos.add(enemigo)
 
 #Bucle Principal
 while running[0]:
@@ -61,15 +64,27 @@ while running[0]:
       
     #Aparicion  del enemigo
     momento_actual = pygame.time.get_ticks()
-    if(momento_actual > ultimo_enemigo_creado + frecuencia_creacion_enemigo):
-        cordx = random.randint(0, pantalla.get_width())
-        cordy = -125
-        #Creamos al enemigo
-        enemigo = elements.Enemigo((cordx,cordy))
-        grupo_sprites_todos.add(enemigo)
-        grupo_sprites_enemigos.add(enemigo)
-        ultimo_enemigo_creado = momento_actual
-         
+    if random.randint(0,1000) < frecuencia_creacion_enemigo:
+        cordx = random.randint(-1620, pantalla.get_width() *2)
+        cordy = random.randint(-780, pantalla.get_height() *2)
+        cords = (cordx, cordy)
+        if not cords == (960,550):
+            nuevo_enemigo = elements.Enemigo((cordx, cordy))
+            grupo_sprites_todos.add(nuevo_enemigo)
+            grupo_sprites_enemigos.add(nuevo_enemigo)
+    
+   
+
+    #Movemos a los enemigos
+    for enemigo in grupo_sprites_enemigos:
+        enemigo.movimiento_enemigo(planeta)
+
+    #Colisiones con el Planeta
+    for enemigo in grupo_sprites_enemigos:
+        if pygame.sprite.collide_mask(enemigo, planeta):
+            grupo_sprites_enemigos.remove(enemigo)
+            grupo_sprites_todos.remove(enemigo)
+            running[0] = False         
       
     #Pintamos la Pantalla
     pantalla.fill((80,80,80))

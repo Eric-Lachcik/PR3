@@ -55,9 +55,9 @@ class Planeta(pygame.sprite.Sprite):
     def disparar(self, grupo_sprites_todos, grupo_sprites_balas,):
         momento_actual = pygame.time.get_ticks()
         if momento_actual > self.ultimo_disparo + 200:     
-            bala = Bala((self.rect.centerx, self.rect.centery), self.angulo + 90)
-            grupo_sprites_balas.add(bala)
-            grupo_sprites_todos.add(bala)
+            nueva_bala = Bala((self.rect.centerx, self.rect.centery), self.angulo + 90)
+            grupo_sprites_balas.add(nueva_bala)
+            grupo_sprites_todos.add(nueva_bala)
             self.ultimo_disparo = momento_actual 
             
 class Fondo(pygame.sprite.Sprite):
@@ -109,7 +109,9 @@ class Enemigo(pygame.sprite.Sprite):
         self.rect.topleft = posicion
         #Añadimos el angulo
         self.angle = 0
-        self.velocidad = 2    
+        self.velocidad = 2
+
+            
     
     def movimiento_enemigo(self, planeta):
         #Calculamos el angulo de los enemigos
@@ -117,25 +119,19 @@ class Enemigo(pygame.sprite.Sprite):
         #Actualizamos las coordenadas
         self.rect.x += self.velocidad * math.cos(angle)
         self.rect.y += self.velocidad * math.sin(angle)
-        pass
-    
+        
     
     def update(self, *args: Any, **kwargs: Any) :
+        self.mask =  pygame.mask.from_surface(self.image)
+        self.image = pygame.transform.rotate(self.image, +self.angle)
+        self.mask = pygame.mask.from_surface(self.image)
+        self.rect = self.image.get_rect(center=self.rect.center)
       
-       
-       #Capturamos la Pantalla
-       pantalla = pygame.display.get_surface()
-       self.rect.x = min(pantalla.get_width() - self.image.get_width(), self.rect.x)
-       if(self.rect.y > pantalla.get_width()):
-           self.kill()
-       
-       #Capturamos las balas
-       grupo_sprites_balas = args[2]
-       colision_bala = pygame.sprite.spritecollideany(self, grupo_sprites_balas, pygame.sprite.collide_mask)
-       if colision_bala:
-           self.kill()
-           colision_bala.kill() 
+        grupo_sprites_balas = args[2]
+        bala_colision = pygame.sprite.spritecollideany(self, grupo_sprites_balas, pygame.sprite.collide_mask)
+        if bala_colision:
+            self.kill()
+            bala_colision.kill()
     
-       pass
    
        
