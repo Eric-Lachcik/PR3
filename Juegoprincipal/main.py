@@ -18,7 +18,7 @@ y = (480)
 
 #Frecuencias del Enemigo
 ultimo_enemigo_creado = 0
-frecuencia_creacion_enemigo = 250
+frecuencia_creacion_enemigo = 100
 
 #Reloj del juego y FPS
 reloj = pygame.time.Clock()
@@ -36,12 +36,12 @@ grupo_sprites_enemigos = pygame.sprite.Group()
 grupo_sprites_balas = pygame.sprite.Group()
 
 #Añadimos las cosas a los sprites
-enemigo = elements.Enemigo((2500,1500))
+#enemigo = elements.Enemigo((2500,1500))
 fondo = elements.Fondo()
 planeta = elements.Planeta((posicion))
 bala = elements.Bala((0,0),0)
 grupo_sprites_todos.add(fondo, planeta, bala)
-grupo_sprites_enemigos.add(enemigo)
+
 
 #Bucle Principal
 while running[0]:
@@ -65,16 +65,14 @@ while running[0]:
     #Aparicion  del enemigo
     momento_actual = pygame.time.get_ticks()
     if random.randint(0,1000) < frecuencia_creacion_enemigo:
-        cordx = random.randint(-1620, pantalla.get_width() + 300)
-        cordy = random.randint(-780, pantalla.get_height() + 300 )
+        cordx = random.randint(-pantalla.get_width(), pantalla.get_width() + 300)
+        cordy = random.randint(-pantalla.get_height(), pantalla.get_height() + 300 )
         cords = (cordx, cordy)
         if not cords == (960,550):
-            nuevo_enemigo = elements.Enemigo((cordx, cordy))
-            grupo_sprites_todos.add(nuevo_enemigo)
-            grupo_sprites_enemigos.add(nuevo_enemigo)
+            enemigo = elements.Enemigo((cordx, cordy))
+            grupo_sprites_todos.add(enemigo)
+            grupo_sprites_enemigos.add(enemigo)
     
-   
-
     #Movemos a los enemigos
     for enemigo in grupo_sprites_enemigos:
         enemigo.movimiento_enemigo(planeta)
