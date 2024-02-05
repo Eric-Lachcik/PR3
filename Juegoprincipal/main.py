@@ -11,10 +11,10 @@ pygame.init()
 #Tamaño de la Pantalla y posicion de la Nave
 tamaño = (1920, 1080)
 pantalla = pygame.display.set_mode((tamaño), pygame.FULLSCREEN)
-posicion = (960,550)
-#posicion1 = (710,480)
-x = (960)
-y = (550)
+#posicion = (960,550)
+posicion = (710,480)
+x = (710)
+y = (480)
 
 #Frecuencias del Enemigo
 ultimo_enemigo_creado = 0
@@ -22,7 +22,7 @@ frecuencia_creacion_enemigo = 250
 
 #Reloj del juego y FPS
 reloj = pygame.time.Clock()
-FPS = 240
+FPS = 60
 
 #Fuente para el texto(Menu)
 font = pygame.font.Font(None, 30)
@@ -65,8 +65,8 @@ while running[0]:
     #Aparicion  del enemigo
     momento_actual = pygame.time.get_ticks()
     if random.randint(0,1000) < frecuencia_creacion_enemigo:
-        cordx = random.randint(-1620, pantalla.get_width() *2)
-        cordy = random.randint(-780, pantalla.get_height() *2)
+        cordx = random.randint(-1620, pantalla.get_width() + 300)
+        cordy = random.randint(-780, pantalla.get_height() + 300 )
         cords = (cordx, cordy)
         if not cords == (960,550):
             nuevo_enemigo = elements.Enemigo((cordx, cordy))
