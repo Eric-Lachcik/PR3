@@ -18,7 +18,7 @@ y = (480)
 
 #Frecuencias del Enemigo
 ultimo_enemigo_creado = 0
-frecuencia_creacion_enemigo = 100
+frecuencia_creacion_enemigo = 50
 
 #Reloj del juego y FPS
 reloj = pygame.time.Clock()
@@ -36,7 +36,6 @@ grupo_sprites_enemigos = pygame.sprite.Group()
 grupo_sprites_balas = pygame.sprite.Group()
 
 #Añadimos las cosas a los sprites
-#enemigo = elements.Enemigo((2500,1500))
 fondo = elements.Fondo()
 planeta = elements.Planeta((posicion))
 bala = elements.Bala((0,0),0)
@@ -65,14 +64,32 @@ while running[0]:
     #Aparicion  del enemigo
     momento_actual = pygame.time.get_ticks()
     if random.randint(0,1000) < frecuencia_creacion_enemigo:
-        cordx = random.randint(-pantalla.get_width(), pantalla.get_width() + 300)
-        cordy = random.randint(-pantalla.get_height(), pantalla.get_height() + 300 )
-        cords = (cordx, cordy)
-        if not cords == (960,550):
-            enemigo = elements.Enemigo((cordx, cordy))
+        spawn = random.randint(1,4)
+        if spawn == 1:
+            cordx1 = random.randint(-120, 0)
+            cordy1 = random.randint(0, 1080)
+            enemigo = elements.Enemigo((cordx1, cordy1))
             grupo_sprites_todos.add(enemigo)
             grupo_sprites_enemigos.add(enemigo)
-    
+        elif spawn == 2:
+            cordx2 = random.randint(0,1920)
+            cordy2 = random.randint(-120, 0)
+            enemigo = elements.Enemigo((cordx2, cordy2))
+            grupo_sprites_todos.add(enemigo)
+            grupo_sprites_enemigos.add(enemigo)
+        elif spawn == 3:
+            cordx3 = random.randint(1920,2120)
+            cordy3 = random.randint(0, 1080)
+            enemigo = elements.Enemigo((cordx3, cordy3))
+            grupo_sprites_todos.add(enemigo)
+            grupo_sprites_enemigos.add(enemigo)
+        elif spawn == 4:
+            cordx4 = random.randint(0,1920)
+            cordy4 = random.randint(1080, 1300)
+            enemigo = elements.Enemigo((cordx4, cordy4))
+            grupo_sprites_todos.add(enemigo)
+            grupo_sprites_enemigos.add(enemigo)
+            
     #Movemos a los enemigos
     for enemigo in grupo_sprites_enemigos:
         enemigo.movimiento_enemigo(planeta)
@@ -83,11 +100,11 @@ while running[0]:
             grupo_sprites_enemigos.remove(enemigo)
             grupo_sprites_todos.remove(enemigo)
             running[0] = False         
-      
+ 
     #Pintamos la Pantalla
     pantalla.fill((80,80,80))
     grupo_sprites_todos.draw(pantalla)
     grupo_sprites_todos.update(teclas, grupo_sprites_todos, grupo_sprites_balas, grupo_sprites_enemigos, running, x,y,pos,posicion, dis)
-    #Rdibujamos la Pantalla
+    #Redibujamos la Pantalla
     pygame.display.flip()
     pass

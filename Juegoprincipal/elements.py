@@ -22,6 +22,8 @@ class Planeta(pygame.sprite.Sprite):
         
         
     def update(self, *args: any, **kwargs: any):
+        #Capturamos running
+        running = args[4]
         #Capturamos X e Y
         x = args[5]
         y = args[6]
@@ -41,15 +43,18 @@ class Planeta(pygame.sprite.Sprite):
         y_dist = -(pos[1] - y)
         self.angulo = math.degrees(math.atan2(y_dist, x_dist))
         #Rotacion del Planeta
+        self.mask =  pygame.mask.from_surface(self.image)
         self.image = pygame.transform.rotate(self.ricardo2, self.angulo - 90)
+        self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect(center = self.rect.center)
         #Video del movimiento de raton
         #https://www.youtube.com/watch?v=WnIycS9Gf_c
-        
         #Gestionamos el Raton y las teclas
         if click_izdo:
             #Disparar
             self.disparar(grupo_sprites_todos,grupo_sprites_balas)
+        
+        
 
     
     def disparar(self, grupo_sprites_todos, grupo_sprites_balas,):
@@ -109,7 +114,7 @@ class Enemigo(pygame.sprite.Sprite):
         self.rect.topleft = posicion
         #Añadimos el angulo
         self.angle = 0
-        self.velocidad = 2
+        self.velocidad = 1.5
 
             
     
