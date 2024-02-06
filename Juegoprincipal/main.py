@@ -18,7 +18,7 @@ y = (480)
 
 #Frecuencias del Enemigo
 ultimo_enemigo_creado = 0
-frecuencia_creacion_enemigo = 50
+frecuencia_creacion_enemigo = 40
 
 #Reloj del juego y FPS
 reloj = pygame.time.Clock()

@@ -114,7 +114,7 @@ class Enemigo(pygame.sprite.Sprite):
         self.rect.topleft = posicion
         #Añadimos el angulo
         self.angle = 0
-        self.velocidad = 1.5
+        self.velocidad = 1.75
 
             
     
