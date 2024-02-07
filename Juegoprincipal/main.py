@@ -127,7 +127,6 @@ def start_the_game():
     
         #Pintamos la Pantalla
         pantalla.fill((80,80,80))
-        #grupo_sprites_todos.update(teclas, grupo_sprites_todos, grupo_sprites_balas, grupo_sprites_enemigos, running, x,y,pos,posicion, dis)
         grupo_sprites_todos.draw(pantalla)
         
         if pausado:
