@@ -12,27 +12,41 @@ pygame.init()
 #Tamaño de la Pantalla y posicion de la Nave
 tamaño = (1920, 1080)
 pantalla = pygame.display.set_mode((tamaño), pygame.FULLSCREEN)
-#posicion = (960,550)
-posicion = (710,480)
-x = (710)
-y = (480)
+posicion = (960,550)
+#posicion = (710,480)
+x = (960)
+y = (550)
 
 #Frecuencias del Enemigo
 ultimo_enemigo_creado = 0
 frecuencia_creacion_enemigo = 150
+frecuencia_creacion_enemigo_Especial = 2
 
 #Reloj del juego y FPS
 reloj = pygame.time.Clock()
 FPS = 60
+#Puntuacion
+score = [0]
+scrx1, scry1 = 10, 10
 
-#Fuente para el texto(Menu)
+#Vidas
+vidas = 3
+vrdx1 , vrdy1 = 10, 35
+
+#Fuente para el texto
 font = pygame.font.Font(None, 30)
+
+def pintar_Puntos(scrx, scry): 
+    score_texto = font.render("Score: " + str(score), True, "Green")
+    pantalla.blit(score_texto, (scrx, scry))
+
+def pintar_Vidas(vdx, vdy):
+    vida_texto = font.render("Vidas: " + str(vidas), True, "Green")    
+    pantalla.blit(vida_texto, (vdx, vdy))
 
 def set_difficulty(value, difficulty):
     global frecuencia_creacion_enemigo
     frecuencia_creacion_enemigo = difficulty
-    
-
 
 def start_the_game():
     
@@ -45,7 +59,9 @@ def start_the_game():
     global FPS
     global frecuencia_creacion_enemigo
     global font
-   
+    global score
+    global vidas
+
     #Grupo de Sprites
     grupo_sprites_todos = pygame.sprite.Group()
     grupo_sprites_enemigos = pygame.sprite.Group()
@@ -58,6 +74,7 @@ def start_the_game():
     grupo_sprites_todos.add(fondo, planeta, bala)
 
     pausado = False
+    reinicio = False
 
     #Bucle Principal
     while running[0]:
@@ -111,6 +128,34 @@ def start_the_game():
                     enemigo = elements.Enemigo((cordx4, cordy4))
                     grupo_sprites_todos.add(enemigo)
                     grupo_sprites_enemigos.add(enemigo)
+            
+            #Aparicion enemigo Especial
+            if random.randint(0,1000) < frecuencia_creacion_enemigo_Especial:
+                spawn = random.randint(1,4)
+                if spawn == 1:
+                    cordx1 = random.randint(-120, 0)
+                    cordy1 = random.randint(0, 1080)
+                    enemigo = elements.Enemigo_Especial((cordx1, cordy1))
+                    grupo_sprites_todos.add(enemigo)
+                    grupo_sprites_enemigos.add(enemigo)
+                elif spawn == 2:
+                    cordx2 = random.randint(0,1920)
+                    cordy2 = random.randint(-120, 0)
+                    enemigo = elements.Enemigo_Especial((cordx2, cordy2))
+                    grupo_sprites_todos.add(enemigo)
+                    grupo_sprites_enemigos.add(enemigo)
+                elif spawn == 3:
+                    cordx3 = random.randint(1920,2120)
+                    cordy3 = random.randint(0, 1080)
+                    enemigo = elements.Enemigo_Especial((cordx3, cordy3))
+                    grupo_sprites_todos.add(enemigo)
+                    grupo_sprites_enemigos.add(enemigo)
+                elif spawn == 4:
+                    cordx4 = random.randint(0,1920)
+                    cordy4 = random.randint(1080, 1300)
+                    enemigo = elements.Enemigo_Especial((cordx4, cordy4))
+                    grupo_sprites_todos.add(enemigo)
+                    grupo_sprites_enemigos.add(enemigo)
 
             #Movemos a los enemigos
             for enemigo in grupo_sprites_enemigos:
@@ -119,12 +164,23 @@ def start_the_game():
             #Colisiones con el Planeta
             for enemigo in grupo_sprites_enemigos:
                 if pygame.sprite.collide_mask(enemigo, planeta):
+                    vidas -= 1
                     grupo_sprites_enemigos.remove(enemigo)
                     grupo_sprites_todos.remove(enemigo)
-                    running[0] = False
                     
-            grupo_sprites_todos.update(teclas, grupo_sprites_todos, grupo_sprites_balas, grupo_sprites_enemigos, running, x,y,pos,posicion, dis)         
-    
+            if vidas <= 0:
+                if not reinicio:
+                    reinicio = pygame.time.get_ticks()
+                    vidas = 3
+                    score[0] = 0
+                    for enemigo in grupo_sprites_enemigos:
+                        enemigo.kill()
+                    reinicio = False
+                    menu.mainloop(pantalla)                   
+                    
+                    
+            grupo_sprites_todos.update(teclas, grupo_sprites_todos, grupo_sprites_balas, grupo_sprites_enemigos, running, x,y,pos,posicion, dis, score)         
+            
         #Pintamos la Pantalla
         pantalla.fill((80,80,80))
         grupo_sprites_todos.draw(pantalla)
@@ -132,7 +188,12 @@ def start_the_game():
         if pausado:
             texto = font.render("PAUSA", True, "Green")
             pantalla.blit(texto, (pantalla.get_width() / 2.115, pantalla.get_height() / 3.15))
-        
+           
+            
+        #Pintamos la puntuacion
+        pintar_Puntos(scrx1, scry1)
+        #Pintamos las vidas
+        pintar_Vidas(vrdx1, vrdy1)
         #Redibujamos la Pantalla
         pygame.display.flip()
         

@@ -54,9 +54,6 @@ class Planeta(pygame.sprite.Sprite):
             #Disparar
             self.disparar(grupo_sprites_todos,grupo_sprites_balas)
         
-        
-
-    
     def disparar(self, grupo_sprites_todos, grupo_sprites_balas,):
         momento_actual = pygame.time.get_ticks()
         if momento_actual > self.ultimo_disparo + 200:     
@@ -131,12 +128,45 @@ class Enemigo(pygame.sprite.Sprite):
         self.image = pygame.transform.rotate(self.image, +self.angle)
         self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect(center=self.rect.center)
-      
+        score = args[10]
         grupo_sprites_balas = args[2]
         bala_colision = pygame.sprite.spritecollideany(self, grupo_sprites_balas, pygame.sprite.collide_mask)
         if bala_colision:
             self.kill()
             bala_colision.kill()
+            score[0] += 10
     
-   
-       
+class Enemigo_Especial(pygame.sprite.Sprite):
+
+    def __init__(self,posicion) -> None:
+        super().__init__()
+        #Cargamos la Imagen
+        cristiano = pygame.image.load("EnemigoEspeF.png")
+        self.image = pygame.transform.scale(cristiano, (120,120))
+        #Creamos el Rectangulo
+        self.rect = self.image.get_rect()
+        #Actualizamos su posicion 
+        self.rect.topleft = posicion
+        #Añadimos el angulo
+        self.angle = 0
+        self.velocidad = 2
+    
+    def movimiento_enemigo(self, planeta):
+        #Calculamos el angulo de los enemigos
+        angle = math.atan2(planeta.rect.centery - self.rect.centery, planeta.rect.centerx - self.rect.centerx)
+        #Actualizamos las coordenadas
+        self.rect.x += self.velocidad * math.cos(angle)
+        self.rect.y += self.velocidad * math.sin(angle)
+
+    def update(self, *args: Any, **kwargs: Any) :
+        self.mask =  pygame.mask.from_surface(self.image)
+        self.image = pygame.transform.rotate(self.image, +self.angle)
+        self.mask = pygame.mask.from_surface(self.image)
+        self.rect = self.image.get_rect(center=self.rect.center)
+        score = args[10]
+        grupo_sprites_balas = args[2]
+        bala_colision = pygame.sprite.spritecollideany(self, grupo_sprites_balas, pygame.sprite.collide_mask)
+        if bala_colision:
+            self.kill()
+            bala_colision.kill()
+            score[0] += 100
