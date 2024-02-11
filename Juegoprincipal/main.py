@@ -92,7 +92,8 @@ def start_the_game():
         #Capturamos la posicion del Mouse
         pos = pygame.mouse.get_pos()
         dis = pygame.mouse.get_pressed()
-
+        
+        #KeyBinds
         if teclas[pygame.K_ESCAPE]:
             running[0] = False
 
@@ -167,7 +168,8 @@ def start_the_game():
                     vidas -= 1
                     grupo_sprites_enemigos.remove(enemigo)
                     grupo_sprites_todos.remove(enemigo)
-                    
+
+            #Para poder volver a Jugar      
             if vidas <= 0:
                 if not reinicio:
                     reinicio = pygame.time.get_ticks()
@@ -185,6 +187,7 @@ def start_the_game():
         pantalla.fill((80,80,80))
         grupo_sprites_todos.draw(pantalla)
         
+        #Cuando esta Pausado
         if pausado:
             texto = font.render("PAUSA", True, "Green")
             pantalla.blit(texto, (pantalla.get_width() / 2.115, pantalla.get_height() / 3.15))
