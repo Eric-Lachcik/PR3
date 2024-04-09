@@ -12,10 +12,10 @@ pygame.init()
 #Tamaño de la Pantalla y posicion de la Nave
 tamaño = (1920, 1080)
 pantalla = pygame.display.set_mode((tamaño), pygame.FULLSCREEN)
-posicion = (960,550)
-#posicion = (710,480)
-x = (960)
-y = (550)
+#posicion = (960,550)
+posicion = (710,480)
+x = (710)
+y = (480)
 
 #Frecuencias del Enemigo
 ultimo_enemigo_creado = 0
